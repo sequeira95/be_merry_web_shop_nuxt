@@ -23,7 +23,7 @@
         ></v-carousel-item>
       </v-carousel>
     </div>
-    <CategoriesCarousel class="py-16"></CategoriesCarousel>
+    <CategoriesCarousel class="pa-16"></CategoriesCarousel>
     <div class="about_me d-flex">
       <div class="about_me_img">
         <nuxt-img src="/aboutMe.png"/>
@@ -36,6 +36,12 @@
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab praesentium nisi aliquid veniam voluptatem in esse, inventore reprehenderit distinctio repellat illum amet expedita nihil ipsum iure recusandae et vel voluptatum!
           Accusamus, pariatur vel voluptate fuga est numquam quisquam totam officiis molestias minus ut cum, repellat modi maiores. Suscipit consectetur fugiat aliquam pariatur quae aut itaque blanditiis, a, expedita, repellendus doloribus!
         </p>
+      </div>
+    </div>
+    <div class="custom_orders">
+      <h4>ÚLTIMOS PEDIDOS PERSONALIZADOS</h4>
+      <div class="custom_orders_card">
+        <CustomCard v-for=" n in 3" :key="n" ></CustomCard>
       </div>
     </div>
   </div>
@@ -57,6 +63,7 @@
   }
   .about_me h4{
     padding: 5rem 9.31rem 2rem 3.75rem;
+    font-family: 'Poppins', sans-serif;
     color: #FF8BB5;
     text-align: center;
     font-size: 1.25rem;
@@ -69,4 +76,20 @@
     padding: 0 9.31rem 0 3.75rem;
     text-align: center;
   }
+  .custom_orders h4{
+    padding: 3rem 0 2.81rem 8.75rem;
+    font-family: 'Poppins', sans-serif;
+    color: #F97272;
+    font-size: 0.875rem;
+    font-style: italic;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.4375rem;
+  }
+  .custom_orders .custom_orders_card{
+    display: flex;
+    gap: 4.5rem;
+    justify-content: center;
+  }
+
 </style>

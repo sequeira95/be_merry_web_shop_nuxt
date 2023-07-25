@@ -1,3 +1,15 @@
+<script setup>
+
+    let newList = ref([])
+  onMounted(()=>{
+    newList = [
+      {title:"VER TODO"},
+      {title:"ROPITA"},
+      {title:"ACCESORIOS"}
+    ]
+  })
+  const  {data:empresa}= await useFetch("http://localhost:5000/api/v1/empresa")
+</script>
 <template>
   <nav>
     <div class='nav_sup'>
@@ -15,8 +27,8 @@
               </template>
         </v-text-field>
       </div>
-      <NuxtLink to="#">
-        <nuxt-img src="/logo.png"   sizes="sm:100vw md:50vw lg:300px"/>
+      <NuxtLink to="/">
+        <nuxt-img :src="empresa.aboutMe.logo.url"   sizes="sm:100vw md:50vw lg:300px"/>
       </NuxtLink>
       <div class="icons">
         <div class="icon_menu">
@@ -104,8 +116,9 @@
               :key="index"
               :value="index"
               :ripple="false"
+              
             >
-              <v-list-item-title><span>{{ item.title }}</span></v-list-item-title>
+              <v-list-item-title><NuxtLink to="/productos/ropita"><span>{{ item.title }}</span></NuxtLink></v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -113,20 +126,11 @@
     </div>
   </nav>
 </template>
-<script setup>
-import { onMounted } from "vue"
-
-    let newList = ref([])
-  onMounted(()=>{
-    newList = [
-      {title:"VER TODO"},
-      {title:"ROPITA"},
-      {title:"ACCESORIOS"}
-    ]
-  })
-</script>
 
 <style>
+  a{
+    text-decoration: none;
+  }
   .nav_sup {
     display: flex;
     background-color: #fff;
@@ -169,6 +173,7 @@ import { onMounted } from "vue"
     justify-content: space-around;
   }
   .nav_inf .nav_inf_btn{
+    font-family: 'Poppins', sans-serif;
     border-radius: 1.25rem;
     font-size: 0.875rem;
     font-weight: 700;
@@ -183,9 +188,11 @@ import { onMounted } from "vue"
   }
   .yellowList span{
     background: #F97272;
-    font-size: 12px;
+    font-size: 0.6875rem;
     padding: 0 10px;
     border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
   }
   .pinkList{
     background: #FF8BB5 !important;
@@ -194,9 +201,11 @@ import { onMounted } from "vue"
   .pinkList span{
     background: #FCE3A4;
     color: #FF8BB5 !important;
-    font-size: 12px;
+    font-size: 0.6875rem;
     padding: 0 10px;
     border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
   }
   .btn-rose .v-btn__content{
     color: #FF8BB5 !important;
@@ -208,9 +217,11 @@ import { onMounted } from "vue"
   .redList span{
     background: #FCE3A4;
     color: #FF8BB5 !important;
-    font-size: 12px;
+    font-size: 0.6875rem;
     padding: 0 10px;
     border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
   }
   .btn-red .v-btn__content{
     color: #F97272 !important;

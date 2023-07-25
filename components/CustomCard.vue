@@ -1,0 +1,41 @@
+<template>
+  <div>
+    <div class="custom_order_img">
+      <nuxt-img src="/aboutMe.png"/>
+    </div>
+    <div class="custom_order_price">
+      <p class="pb-2">PRENDA</p>
+      <p>$</p>
+    </div>
+  </div>
+</template>
+
+<style>
+  .custom_order_img{
+    border: 1px solid #F97272;
+    border-radius: 1.25rem;
+    width: 18.75rem;
+    height: 18.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .custom_order_img img{
+    width: 16.25rem;
+    height: 16.25rem;
+    padding: 0.5rem;
+  }
+  .custom_order_price{
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.4375rem;
+    color: #F97272;
+    padding: 1.12rem;
+
+  }
+</style>
