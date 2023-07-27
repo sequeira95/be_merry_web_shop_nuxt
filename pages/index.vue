@@ -1,3 +1,8 @@
+<script setup>
+
+  const  {data:empresa}= await useFetch("http://localhost:5000/api/v1/empresa")
+
+</script>
 <template>
   <div class="pt-16">
     <div class="px-5 d-flex justify-center">
@@ -26,15 +31,16 @@
     <CategoriesCarousel class="pa-16"></CategoriesCarousel>
     <div class="about_me d-flex">
       <div class="about_me_img">
-        <nuxt-img src="/aboutMe.png"/>
+        <nuxt-img 
+          v-if="empresa && empresa.imgAboutMe"
+          :src="empresa.imgAboutMe.url"   sizes="sm:100vw md:50vw lg:300px" alt="Imagen About Me"/>
       </div>
       <div>
         <h4>
           ABOUT ME
         </h4>
         <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab praesentium nisi aliquid veniam voluptatem in esse, inventore reprehenderit distinctio repellat illum amet expedita nihil ipsum iure recusandae et vel voluptatum!
-          Accusamus, pariatur vel voluptate fuga est numquam quisquam totam officiis molestias minus ut cum, repellat modi maiores. Suscipit consectetur fugiat aliquam pariatur quae aut itaque blanditiis, a, expedita, repellendus doloribus!
+          {{ empresa.history || 'ropita hecha por mua' }}
         </p>
       </div>
     </div>

@@ -8,26 +8,29 @@
     {
       title:"Productos",
       link:"/administracion/productos"
+    },
+    {
+      title:"Categoria",
+      link:"/administracion/cateogorias"
     }
   ])
 </script>
 
 <template>
-  <div class="sidebar">
-    <main>
-    <div class="logo">
-      <NuxtLink to="/">
-        <nuxt-img v-if="
-            empresaData &&
-            empresaData.aboutMe && 
-            empresaData.aboutMe.logo" :src="empresaData.aboutMe.logo.url"/>
-      </NuxtLink>
+  <nav>
+    <div class="sidebar">
+      <div class="logo">
+        <NuxtLink to="/">
+          <nuxt-img 
+          v-if="empresaData && empresaData.logo"
+          :src="empresaData.logo.url" alt="Logo de BeMerry"/>
+        </NuxtLink>
+      </div>
+      <ul v-for="link of links">
+        <li><NuxtLink :to="link.link">{{ link.title }}</NuxtLink></li>
+      </ul>
     </div>
-    <ul v-for="link of links">
-      <li><NuxtLink :to="link.link">{{ link.title }}</NuxtLink></li>
-    </ul>
-  </main>
-  </div>
+  </nav>
 
 </template>
 <style>

@@ -9,6 +9,7 @@
     ]
   })
   const  {data:empresa}= await useFetch("http://localhost:5000/api/v1/empresa")
+  
 </script>
 <template>
   <nav>
@@ -28,7 +29,9 @@
         </v-text-field>
       </div>
       <NuxtLink to="/">
-        <nuxt-img :src="empresa.aboutMe.logo.url"   sizes="sm:100vw md:50vw lg:300px"/>
+        <nuxt-img 
+          v-if="empresa && empresa.logo"
+          :src="empresa.logo.url"   sizes="sm:100vw md:50vw lg:300px" alt="Logo de BeMerry"/>
       </NuxtLink>
       <div class="icons">
         <div class="icon_menu">
