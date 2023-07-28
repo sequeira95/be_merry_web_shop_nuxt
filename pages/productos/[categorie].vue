@@ -1,6 +1,5 @@
 <script setup>
   const params = useRoute()
-  console.log(params)
 </script>
 
 <template>

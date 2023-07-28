@@ -10,8 +10,7 @@
         <nuxt-img 
           v-if="
             empresaData &&
-            empresaData.aboutMe && 
-            empresaData.aboutMe.logo" :src="empresaData.aboutMe.logo.url"/>
+            empresaData.logo" :src="empresaData.logo.url"/>
       <v-btn icon>
         <v-icon>mdi-plus</v-icon>
       </v-btn>

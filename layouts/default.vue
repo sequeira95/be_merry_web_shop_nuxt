@@ -1,8 +1,10 @@
 <template>
+  <v-app>
   <Header></Header>
-  <main>
+  <main class="pt-16">
     <slot/>
   </main>
+  </v-app>
 </template>
 <style>
   .page-enter-active,

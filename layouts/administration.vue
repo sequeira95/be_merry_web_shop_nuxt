@@ -1,6 +1,8 @@
 <template>
+  <v-app>
   <HeaderAdmin></HeaderAdmin>
-  <main>
+  <v-main>
     <slot/>
-  </main>
+  </v-main>
+  </v-app>
 </template>

@@ -17,7 +17,7 @@
 </script>
 
 <template>
-  <nav>
+  <v-navigation-drawer>
     <div class="sidebar">
       <div class="logo">
         <NuxtLink to="/">
@@ -30,7 +30,7 @@
         <li><NuxtLink :to="link.link">{{ link.title }}</NuxtLink></li>
       </ul>
     </div>
-  </nav>
+  </v-navigation-drawer>
 
 </template>
 <style>
@@ -40,7 +40,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 200px;
+    width: 100%;
     height: 100vh;
     background-color: #FF8BB5;
   }

@@ -1,14 +1,25 @@
 <script setup>
-
-    let newList = ref([])
-  onMounted(()=>{
-    newList = [
-      {title:"VER TODO"},
-      {title:"ROPITA"},
-      {title:"ACCESORIOS"}
-    ]
-  })
+  let newList = ref([
+    {title:"VER TODO"},
+    {title:"ROPITA"},
+    {title:"ACCESORIOS"}
+  ])
+  let listContacto = ref([
+    {name:"sobre mi"},
+    {name:"whatsapp"},
+    {name:"instagram"}
+  ])
   const  {data:empresa}= await useFetch("http://localhost:5000/api/v1/empresa")
+  const  {data:categorias}= await useFetch("http://localhost:5000/api/v1/category",{
+    query:{active:true},
+    transform:(categorias) =>{
+      let ropita = categorias.filter( e => e.type === "ropa")
+      let accesorios = categorias.filter( e => e.type === "accesorios")
+      ropita.unshift({name:"ver todo"})
+      accesorios.unshift({name:"ver todo"})
+      return {ropita, accesorios}
+    }
+  })
   
 </script>
 <template>
@@ -75,12 +86,16 @@
         <v-menu activator="parent" class="pt-5">
           <v-list class="yellowList">
             <v-list-item
-              v-for="(item, index) in newList"
+              v-for="(item, index) of categorias.ropita"
               :key="index"
               :value="index"
               :ripple="false"
             >
-              <v-list-item-title><span>{{ item.title }}</span></v-list-item-title>
+              <v-list-item-title>
+                <NuxtLink :to="`/productos/${item.name === 'ver todo' ? 'ropita' : item.name}`">
+                  <span>{{ item.name.toUpperCase() }}</span>
+                </NuxtLink>
+              </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -95,12 +110,16 @@
         <v-menu activator="parent" class="pt-5">
           <v-list class="pinkList">
             <v-list-item
-              v-for="(item, index) in newList"
+              v-for="(item, index) of categorias.accesorios"
               :key="index"
               :value="index"
               :ripple="false"
             >
-              <v-list-item-title><span>{{ item.title }}</span></v-list-item-title>
+              <v-list-item-title>
+                <NuxtLink :to="`/productos/${item.name === 'ver todo' ? 'accesorios' : item.name}`">
+                  <span>{{ item.name.toUpperCase() }}</span>
+                </NuxtLink>
+              </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -115,13 +134,13 @@
         <v-menu activator="parent" class="pt-5">
           <v-list class="redList">
             <v-list-item
-              v-for="(item, index) in newList"
+              v-for="(item, index) of listContacto"
               :key="index"
               :value="index"
               :ripple="false"
               
             >
-              <v-list-item-title><NuxtLink to="/productos/ropita"><span>{{ item.title }}</span></NuxtLink></v-list-item-title>
+              <v-list-item-title><NuxtLink to="/productos/ropita"><span>{{ item.name.toUpperCase() }}</span></NuxtLink></v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -191,6 +210,7 @@
   }
   .yellowList span{
     background: #F97272;
+    color: #FFF !important;
     font-size: 0.6875rem;
     padding: 0 10px;
     border-radius: 50px;

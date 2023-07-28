@@ -1,3 +1,6 @@
+<script setup>
+  const  {data:categorias}= await useFetch("http://localhost:5000/api/v1/category",{query:{active:true}})
+</script>
 <template>
   <div>
       <v-slide-group
@@ -5,12 +8,14 @@
         class="categories "
       >
         <v-slide-group-item
-          v-for="n in 8"
-          :key="n"
+          v-for="item of categorias"
+          :key="item._id"
         >
-        <NuxtLink to="#">
-          <nuxt-img src="/categorie.png"/>
-          <p>nombre</p>
+        <NuxtLink 
+          v-if="item && item.imagen"
+          :to="`/productos/${item.name}`">
+          <nuxt-img :src="item.imagen.url"/>
+          <p>{{ item.name }}</p>
         </NuxtLink>
 
         </v-slide-group-item>
@@ -37,6 +42,7 @@
     line-height: normal;
     letter-spacing: 0.225rem;
     color: #FF8BB5;
+    text-transform: uppercase;
 
   }
 </style>
