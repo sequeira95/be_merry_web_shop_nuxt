@@ -1,5 +1,17 @@
 <script setup>
   const  {data:categorias}= await useFetch("http://localhost:5000/api/v1/category",{query:{active:true}})
+  const  {data:anuncios}= await useFetch("http://localhost:5000/api/v1/anuncios",{query:{active:true}})
+  if(anuncios.value && anuncios.value[0]){
+    for(let anuncio of anuncios.value){
+      categorias.value.unshift({
+        _id:anuncio._id,
+        name:anuncio.name,
+        imagen:anuncio.imagen,
+        anuncio:true
+      })
+    }
+
+  }
 </script>
 <template>
   <div>
@@ -13,9 +25,9 @@
         >
         <NuxtLink 
           v-if="item && item.imagen"
-          :to="`/productos/${item.name}`">
+          :to="item.anuncio ? `/anuncios-${item.name}/${item._id}` : `/productos/${item.name}`">
           <nuxt-img :src="item.imagen.url"/>
-          <p>{{ item.name }}</p>
+          <p>{{ item.name.toUpperCase() }}</p>
         </NuxtLink>
 
         </v-slide-group-item>
@@ -43,6 +55,5 @@
     letter-spacing: 0.225rem;
     color: #FF8BB5;
     text-transform: uppercase;
-
   }
 </style>

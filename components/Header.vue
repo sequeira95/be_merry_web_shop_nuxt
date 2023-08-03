@@ -9,7 +9,12 @@
     {name:"whatsapp"},
     {name:"instagram"}
   ])
-  const  {data:empresa}= await useFetch("http://localhost:5000/api/v1/empresa")
+  const empresa = ref({})
+  try{
+    const  { data }= await useFetch("http://localhost:5000/api/v1/empresa")
+    empresa.value = data
+  }catch (e){}
+  //const  {data:empresa}= await useFetch("http://localhost:5000/api/v1/empresa")
   const  {data:categorias}= await useFetch("http://localhost:5000/api/v1/category",{
     query:{active:true},
     transform:(categorias) =>{
@@ -43,6 +48,9 @@
         <nuxt-img 
           v-if="empresa && empresa.logo"
           :src="empresa.logo.url"   sizes="sm:100vw md:50vw lg:300px" alt="Logo de BeMerry"/>
+        <nuxt-img 
+          v-else
+          src="https://ik.imagekit.io/z87g9nhhp/imgPrincipal/logo_c7LbIq7DK.png?updatedAt=1690219112145"   sizes="sm:100vw md:50vw lg:300px" alt="Logo de BeMerry"/>
       </NuxtLink>
       <div class="icons">
         <div class="icon_menu">
@@ -55,96 +63,71 @@
       </div>
     </div>
     <div class="nav_inf">
-      <v-btn
-        color="#F97272"
-        theme="dark"
-        class="nav_inf_btn"
+      <div class="drop_menu">
+        <v-btn
+          color="#F97272"
+          theme="dark"
+          class="nav_inf_btn"
 
-      >
-        NUEVO
-
-        <v-menu activator="parent" class="pt-5">
-          <v-list class="yellowList">
-            <v-list-item
-              v-for="(item, index) in newList"
-              :key="index"
-              :value="index"
-              :ripple="false"
-            >
-              <v-list-item-title><span>{{ item.title }}</span></v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-btn>
-      <v-btn
-        color="#F97272"
-        theme="dark"
-        class="nav_inf_btn"
-      >
-        ROPITA
-
-        <v-menu activator="parent" class="pt-5">
-          <v-list class="yellowList">
-            <v-list-item
-              v-for="(item, index) of categorias.ropita"
-              :key="index"
-              :value="index"
-              :ripple="false"
-            >
-              <v-list-item-title>
-                <NuxtLink :to="`/productos/${item.name === 'ver todo' ? 'ropita' : item.name}`">
-                  <span>{{ item.name.toUpperCase() }}</span>
-                </NuxtLink>
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-btn>
-      <v-btn
-        color="#FCE3A4"
-        theme="dark"
-        class="nav_inf_btn btn-rose"
-      >
+        >
+          NUEVO
+        </v-btn>
+        <div>
+          <ul class="yellowList">
+            <li v-for="(item, index) in newList" :key="index">
+              <NuxtLink to="#"> {{ item.title }} </NuxtLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="drop_menu">
+        <v-btn
+          color="#F97272"
+          theme="dark"
+          class="nav_inf_btn"
+        >
+          ROPITA
+        </v-btn>
+        <div>
+          <ul class="yellowList">
+            <li v-for="(item, index) in categorias.ropita" :key="index">
+              <NuxtLink :to="`/productos/${item.name === 'ver todo' ? 'ropita' : item.name}`"> {{ item.name.toUpperCase() }} </NuxtLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="drop_menu">
+        <v-btn
+          color="#FCE3A4"
+          theme="dark"
+          class="nav_inf_btn btn-rose"
+        >
         ACCESORIOS
-
-        <v-menu activator="parent" class="pt-5">
-          <v-list class="pinkList">
-            <v-list-item
-              v-for="(item, index) of categorias.accesorios"
-              :key="index"
-              :value="index"
-              :ripple="false"
-            >
-              <v-list-item-title>
-                <NuxtLink :to="`/productos/${item.name === 'ver todo' ? 'accesorios' : item.name}`">
-                  <span>{{ item.name.toUpperCase() }}</span>
-                </NuxtLink>
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-btn>
-      <v-btn
-        color="#FCE3A4"
-        theme="dark"
-        class="nav_inf_btn btn-red"
-      >
-        CONTACTO
-
-        <v-menu activator="parent" class="pt-5">
-          <v-list class="redList">
-            <v-list-item
-              v-for="(item, index) of listContacto"
-              :key="index"
-              :value="index"
-              :ripple="false"
-              
-            >
-              <v-list-item-title><NuxtLink to="/productos/ropita"><span>{{ item.name.toUpperCase() }}</span></NuxtLink></v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-btn>
+        </v-btn>
+        <div>
+          <ul class="pinkList">
+            <li v-for="(item, index) in categorias.accesorios" :key="index">
+              <NuxtLink :to="`/productos/${item.name === 'ver todo' ? 'accesorios' : item.name}`"> {{ item.name.toUpperCase() }} </NuxtLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="drop_menu">
+        <v-btn
+          color="#FCE3A4"
+          theme="dark"
+          class="nav_inf_btn btn-red"
+        >
+          CONTACTO
+        </v-btn>
+        <div>
+          <ul class="redList">
+            <li v-for="(item, index) in listContacto" :key="index">
+              <NuxtLink :to="{name:'productos-category', params:{category:'ropita'}}">{{ item.name.toUpperCase() }}</NuxtLink>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
@@ -194,6 +177,9 @@
     gap: 2rem;
     justify-content: space-around;
   }
+  .nav_inf .drop_menu{
+    position: relative;
+  }
   .nav_inf .nav_inf_btn{
     font-family: 'Poppins', sans-serif;
     border-radius: 1.25rem;
@@ -202,13 +188,23 @@
     letter-spacing: 0.4375rem;
     padding: 0.625rem 1.4375rem;
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
   .yellowList{
+    display: none;
+    position: absolute;
+    overflow: auto;
     background: #FCE3A4 !important;
     width: 300px !important;
+    top: 19px;
+    padding-top: 20px;
+    border-radius: 0rem 1.25rem 1.25rem 1.25rem;
+    z-index: 1;
   }
-  .yellowList span{
+  .yellowList li,.pinkList li, .redList li {
+    padding: 0.5rem 1rem;
+  }
+  .yellowList a{
     background: #F97272;
     color: #FFF !important;
     font-size: 0.6875rem;
@@ -217,11 +213,22 @@
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
   }
+  .drop_menu:hover .yellowList, .drop_menu:hover .pinkList, .drop_menu:hover .redList{
+    display: block;
+    animation: menu-open 0.5s normal;
+  }
   .pinkList{
+    display: none;
+    position: absolute;
+    overflow: auto;
     background: #FF8BB5 !important;
     width: 300px !important;
+    top: 19px;
+    padding-top: 20px;
+    border-radius: 0rem 1.25rem 1.25rem 1.25rem;
+    z-index: 1;
   }
-  .pinkList span{
+  .pinkList a{
     background: #FCE3A4;
     color: #FF8BB5 !important;
     font-size: 0.6875rem;
@@ -234,10 +241,17 @@
     color: #FF8BB5 !important;
   }
   .redList{
+    display: none;
+    position: absolute;
+    overflow: auto;
     background: #F97272 !important;
     width: 300px !important;
+    top: 19px;
+    padding-top: 20px;
+    border-radius: 0rem 1.25rem 1.25rem 1.25rem;
+    z-index: 1;
   }
-  .redList span{
+  .redList a{
     background: #FCE3A4;
     color: #FF8BB5 !important;
     font-size: 0.6875rem;
@@ -249,4 +263,13 @@
   .btn-red .v-btn__content{
     color: #F97272 !important;
   }
+  @keyframes menu-open {
+  from {
+    top: 1px;
+    opacity: 0;
+  }
+  to {
+    bottom: 1000px;
+  }
+}
 </style>

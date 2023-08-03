@@ -1,6 +1,10 @@
 <script setup>
 
   const  {data:empresa}= await useFetch("http://localhost:5000/api/v1/empresa")
+  const  {data:anuncios}= await useFetch("http://localhost:5000/api/v1/anuncios",{query:{active:true}})
+  async function redirect(item){
+    return await navigateTo({path:`/anuncios-${item.name}/${item._id}`})
+  }
 
 </script>
 <template>
@@ -13,18 +17,11 @@
         color="#FF8BB5"
         :show-arrows="false">
         <v-carousel-item
-          src="/promo3-12.jpg"
+          v-for="item of anuncios" :key="item._id"
+          :src="item.imagen.url"
           cover
-        ></v-carousel-item>
+          @click="redirect(item)"
 
-        <v-carousel-item
-          src="/promo3-12.jpg"
-          cover
-        ></v-carousel-item>
-
-        <v-carousel-item
-          src="/promo3-12.jpg"
-          cover
         ></v-carousel-item>
       </v-carousel>
     </div>
@@ -57,6 +54,9 @@
     height: 89.875rem;
     max-width: 67.5rem;
     border-radius: 30px;
+  }
+  .carousel_promo img{
+    cursor: pointer;
   }
   .about_me .about_me_img{
     padding: 5rem 9.31rem 5rem 3.75rem;

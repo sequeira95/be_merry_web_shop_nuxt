@@ -1,12 +1,15 @@
+<script setup>
+  const {product} = defineProps(['product'])
+</script>
 <template>
   <div>
     <div class="product_img">
-      <nuxt-img src="/aboutMe.png"/>
+      <nuxt-img :src="product.imgPrincipal.url"/>
     </div>
     <div class="product_price">
-      <p class="pb-2 name">PRENDA</p>
+      <p class="pb-2 name">{{ product?.name }}</p>
       <div class="product_price_container_price">
-        <p>10$</p>
+        <p>{{ product?.price }}$</p>
       </div>
       <div>aqui habran otras cosas</div>
     </div>

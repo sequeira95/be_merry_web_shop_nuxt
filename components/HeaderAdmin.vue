@@ -12,6 +12,14 @@
     {
       title:"Categoria",
       link:"/administracion/cateogorias"
+    },
+    {
+      title:"Anuncios",
+      link:"/administracion/anuncios"
+    },
+    {
+      title:"Códigos de próductos",
+      link:"/administracion/codeProductos"
     }
   ])
 </script>

@@ -2,48 +2,59 @@
   definePageMeta({
     layout:"administration",
   })
-  const  {data:categorias, refresh}= await useFetch("http://localhost:5000/api/v1/category")
   const openForm = ref(false)
-  const openDelete = ref(false)
   const loader = ref(false)
-  const initialValueCategory = {
+  const isEdit = ref(false)
+  const openDelete = ref(false)
+  const initialValueAnuncios = {
     name:'',
     type:'',
-    imagen:{},
+    category:'',
+    descripcion:'',
+    imagen:{}
   }
-  const category = reactive({...initialValueCategory})
-  const typeCategory = ref([
+  const anuncio = reactive({...initialValueAnuncios})
+  const typeAnuncios = ref([
     {
-      title:"Ropita",
-      value:"ropa"
+      title:"En linea",
+      value:"linea"
     },
     {
-      title:"Accesorios",
-      value:"accesorios"
-    }
+      title:"Slider",
+      value:"slider"
+    },
+    {
+      title:"Mixto",
+      value:"mixto"
+    },
   ])
-  const isValidForm = ref(false)
-  const isEdit = ref(false)
-  const rulesForm = computed(()=>{
-    let rules = {
-      required:[
-        v=> !!v || "Campo requerido"
-      ]
-    }
-    return rules
-  }) 
-  async function guardarCategoria(){
-    if(!category.name || !category.type){
+  const categoryAnuncios = ref([
+    {
+      title:"Promoción",
+      value:"promocion"
+    },
+    {
+      title:"Descuento",
+      value:"descuento"
+    },
+    {
+      title:"Otro",
+      value:"otro"
+    },
+  ])
+  const  {data:anuncios, refresh}= await useFetch("http://localhost:5000/api/v1/anuncios")
+  async function guardarAnuncio(){
+    if(!anuncio.name || !anuncio.type || !anuncio.category){
       return alert("Todos los campos son obligatorios")
     }
     loader.value = true
     try{
       const formData = new FormData()
-      for(let [key, value] of Object.entries(category)){
+      for(let [key, value] of Object.entries(anuncio)){
         formData.append(key, value)
       }
-      formData.append('imagen', category.imagen[0])
-      const {data:res} = await useFetch("http://localhost:5000/api/v1/category",{
+      formData.append('imagen', anuncio.imagen[0])
+      const {data:res} = await useFetch("http://localhost:5000/api/v1/anuncios",{
         method:'POST',
         credentials: "include",
         body:formData //: JSON.stringify({...this.product, imgP:this.imgPrincipal})
@@ -59,21 +70,23 @@
   function openEditar(item){
     openForm.value = true
     isEdit.value = (true)
-    category._id = item._id
-    category.name = item.name
-    category.type = item.type
-    category.activo = item.active
-    category.imagen = item.imagen
+    anuncio._id = item._id
+    anuncio.name = item.name
+    anuncio.type = item.type
+    anuncio.category = item.category
+    anuncio.descripcion = item.descripcion
+    anuncio.activo = item.active
+    anuncio.imagen = item.imagen
   }
-  async function editarCategoria(){
+  async function editarAnuncio(){
     try{
       loader.value = true
       const formData = new FormData()
-      for(let [key, value] of Object.entries(category)){
+      for(let [key, value] of Object.entries(anuncio)){
         formData.append(key, value)
       }
-      if(category.imagen[0]) formData.append('imagen', category.imagen[0])
-      const {data:res} = await useFetch("http://localhost:5000/api/v1/category",{
+      if(anuncio.imagen[0]) formData.append('imagen', anuncio.imagen[0])
+      const {data:res} = await useFetch("http://localhost:5000/api/v1/anuncios",{
         method:'PUT',
         credentials: "include",
         body:formData //: JSON.stringify({...this.product, imgP:this.imgPrincipal})
@@ -83,36 +96,37 @@
       alert(`Ha ocurrido un error inesperado, por favor intente mas tarde ${e}`)
     }finally{
       loader.value = false
-      openForm.value = true
+      openForm.value = false
     }
   }
   function openAlertDelete(item){
     openDelete.value = true
-    category._id = item._id
+    anuncio._id = item._id
   }
-  async function eliminarCategoria(){
+  async function eliminarAnuncio(){
     try{
       loader.value = true
-      await useFetch("http://localhost:5000/api/v1/category",{
+      await useFetch("http://localhost:5000/api/v1/anuncios",{
         method:'DELETE',
         credentials: "include",
-        body:JSON.stringify({...category})
+        body:JSON.stringify({...anuncio})
       });
       refresh()
     }catch(e){
       alert(`Ha ocurrido un error inesperado, por favor intente mas tarde ${e}`)
     }finally{
-      loader.value = true
+      loader.value = false
       openDelete.value = false
     }
   }
   watch(openForm, value =>{
     if(!value){
-      category._id = ''
-      category.name = ''
-      category.type = ''
-      category.activo = ''
-      category.imagen = {}
+      anuncio._id = ''
+      anuncio.name = ''
+      anuncio.type = ''
+      anuncio.category = ''
+      anuncio.activo = ''
+      anuncio.imagen = {}
     }
   },)
 </script>
@@ -123,33 +137,35 @@
         class="btn_add"
         @click="openForm = true">
         <v-icon>mdi-plus</v-icon>
-        Agregar Categoria
+        Agregar Anuncio
       </v-btn>
     </div>
     <div class="d-flex justify-center pa-16">
-      <v-table class="category_table">
+      <v-table class="anuncios_table">
         <thead>
           <tr>
             <th>
-              Nombre
+              Titulo
             </th>
             <th>
               Tipo
             </th>
             <th>
-              Activo
+              Categoria
             </th>
+            <th>Activo</th>
             <th></th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="item in categorias"
+            v-for="item in anuncios"
             :key="item._id"
           >
             <td>{{ item.name }}</td>
             <td>{{ item.type }}</td>
+            <td>{{ item.category }}</td>
             <td>{{ item.active ? "Si" : "No" }}</td>
             <td>
               <v-btn
@@ -184,26 +200,34 @@
     </div>
     <v-dialog v-model="openForm" width="600px">
       <v-card>
-        <v-form class="pa-5" :model-value="isValidForm">
+        <v-form class="pa-5">
           <v-text-field
-            v-model="category.name"
-            label="Categoria"
+            v-model="anuncio.name"
+            label="Titulo"
             clearable
-            :rules="rulesForm.required"
           ></v-text-field>
           <v-select
-            :items="typeCategory"
+            :items="typeAnuncios"
             label="Tipo"
-            v-model="category.type"
+            v-model="anuncio.type"
             clearable
-            :rules="rulesForm.required"
           ></v-select>
+          <v-select
+            :items="categoryAnuncios"
+            label="Categoria"
+            v-model="anuncio.category"
+            clearable
+          ></v-select>
+          <v-textarea
+            v-model="anuncio.descripcion"
+            label="Descripción"
+            clearable=""
+          ></v-textarea>
           <v-file-input
-            v-model='category.imagen'
+            v-model='anuncio.imagen'
             accept="image/*"
             label="Imagen"
             clearable
-            :rules="rulesForm.required"
           >
             <template v-slot:append-inner v-if="isEdit">
               <v-tooltip location="top">
@@ -215,38 +239,39 @@
             </template>
           </v-file-input>
           <v-switch 
-            v-model="category.activo"
+            v-model="anuncio.activo"
             label="Activo"
             v-if="isEdit"
             ></v-switch>
-            <v-btn
-              v-if="!isEdit"
-              class="me-4 btn_add"
-              @click="guardarCategoria"
-              :disabled="!(category.name && category.type)"
-              :loading="loader"
-            >
-              Guardar
-            </v-btn>
-            <v-btn
-              v-else
-              class="me-4 btn_add"
-              @click="editarCategoria"
-              :disabled="!(category.name && category.type)"
-              :loading="loader"
-            >
-              Editar
-            </v-btn>
+          <v-btn
+            v-if="!isEdit"
+            class="me-4 btn_add"
+            @click="guardarAnuncio"
+            :disabled="!(anuncio.name && anuncio.type && anuncio.category)"
+            :loading="loader"
+          >
+            Guardar
+          </v-btn>
+          <v-btn
+            v-else
+            class="me-4 btn_add"
+            @click="editarAnuncio"
+            :disabled="!(anuncio.name && anuncio.type && anuncio.category)"
+            :loading="loader"
+          >
+            Editar
+          </v-btn>
+
         </v-form>
       </v-card>
     </v-dialog>
     <v-dialog v-model="openDelete" width="800px">
       <v-card>
-        <v-card-text class="pa-5 text-center">¿Está seguro(a) que desea eliminar esta categoria?</v-card-text>
+        <v-card-text class="pa-5 text-center">¿Está seguro(a) que desea eliminar este anuncio?</v-card-text>
         <v-card-actions class="d-flex justify-center">
           <v-btn
             class="btn_add"
-            @click="eliminarCategoria"
+            @click="eliminarAnuncio"
             :loading="loader"
           >
             Aceptar
@@ -263,17 +288,17 @@
     box-shadow: none;
     font-family: 'Poppins', sans-serif;
   }
+  .v-input__prepend{
+    margin: 0 !important;
+  }
+  .mdi-paperclip{
+    display: none;
+  }
   .v-table{
     width: 100%;
   }
   th{
     background-color: #FF8BB5;
     color: #FFF !important;
-  }
-  .v-input__prepend{
-    margin: 0 !important;
-  }
-  .mdi-paperclip{
-    display: none;
   }
 </style>

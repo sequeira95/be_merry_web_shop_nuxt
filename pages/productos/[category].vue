@@ -1,5 +1,6 @@
 <script setup>
-  const params = useRoute()
+  const {params} = useRoute()
+  const  {data:productos, refresh:refreshProduct}= await useFetch("http://localhost:5000/api/v1/products",{query:{category:params.category}})
 </script>
 
 <template>
@@ -17,7 +18,7 @@
       </v-btn>
     </div>
     <div class="product_card">
-      <ProductCard v-for=" n in 20" :key="n"></ProductCard>
+      <ProductCard v-for=" producto of productos" :key="producto._id" :product="producto"></ProductCard>
     </div>
   </div>
 </template>
