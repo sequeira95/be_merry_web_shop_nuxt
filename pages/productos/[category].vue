@@ -9,12 +9,15 @@
     query['category'] = params.category
   }
   const  {data:productos, refresh:refreshProduct}= await useFetch(`${baseURL}/products`,{query:{...query}})
+  useHead({
+    title: `${params.category}`
+  })
 </script>
 
 <template>
   <div>
     <Head>
-      <title>Ropita</title>
+      <title>Ropita - </title>
     </Head>
     <CategoriesCarousel class="pa-16"></CategoriesCarousel>
     <div class="separator">
