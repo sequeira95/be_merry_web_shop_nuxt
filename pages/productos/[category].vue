@@ -1,6 +1,14 @@
 <script setup>
   const {params} = useRoute()
-  const  {data:productos, refresh:refreshProduct}= await useFetch("http://localhost:5000/api/v1/products",{query:{category:params.category}})
+  const { public:publicURL } = useRuntimeConfig()
+  const baseURL = publicURL.baseURL
+  const query = {}
+  if(params.category === 'ropita' || params.category === 'accesorios'){
+    query['typeProduct'] = params.category === 'ropita' ? 'ropa' : params.category
+  }else{
+    query['category'] = params.category
+  }
+  const  {data:productos, refresh:refreshProduct}= await useFetch(`${baseURL}/products`,{query:{...query}})
 </script>
 
 <template>

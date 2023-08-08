@@ -1,6 +1,8 @@
 <script setup>
-  const  {data:categorias}= await useFetch("http://localhost:5000/api/v1/category",{query:{active:true}})
-  const  {data:anuncios}= await useFetch("http://localhost:5000/api/v1/anuncios",{query:{active:true}})
+  const { public:publicURL } = useRuntimeConfig()
+  const baseURL = publicURL.baseURL
+  const  {data:categorias}= await useFetch(`${baseURL}/category`,{query:{active:true}})
+  const  {data:anuncios}= await useFetch(`${baseURL}/anuncios`,{query:{active:true}})
   if(anuncios.value && anuncios.value[0]){
     for(let anuncio of anuncios.value){
       categorias.value.unshift({

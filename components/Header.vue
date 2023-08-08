@@ -1,4 +1,6 @@
 <script setup>
+  const { public:publicURL } = useRuntimeConfig()
+  const baseURL = publicURL.baseURL
   let newList = ref([
     {title:"VER TODO"},
     {title:"ROPITA"},
@@ -11,11 +13,11 @@
   ])
   const empresa = ref({})
   try{
-    const  { data }= await useFetch("http://localhost:5000/api/v1/empresa")
+    const  { data }= await useFetch(`${baseURL}/empresa`)
     empresa.value = data
   }catch (e){}
-  //const  {data:empresa}= await useFetch("http://localhost:5000/api/v1/empresa")
-  const  {data:categorias}= await useFetch("http://localhost:5000/api/v1/category",{
+  //const  {data:empresa}= await useFetch("https://be-merry-backend-node-lzbk-dev.fl0.io/api/v1/empresa")
+  const  {data:categorias}= await useFetch(`${baseURL}/category`,{
     query:{active:true},
     transform:(categorias) =>{
       let ropita = categorias.filter( e => e.type === "ropa")

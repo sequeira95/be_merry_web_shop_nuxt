@@ -2,7 +2,9 @@
   definePageMeta({
     layout:"administration"
   })
-  const { data:empresaData } = await useFetch("http://localhost:5000/api/v1/empresa")
+  const { public:publicURL } = useRuntimeConfig()
+  const baseURL = publicURL.baseURL
+  const { data:empresaData } = await useFetch(`${baseURL}/empresa`)
 </script>
 <template>
   <div class="d-flex justify-center pt-16">

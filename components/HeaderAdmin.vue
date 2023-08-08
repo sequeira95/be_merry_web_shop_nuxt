@@ -1,5 +1,7 @@
 <script setup>
-  const { data:empresaData } = await useFetch("http://localhost:5000/api/v1/empresa")
+  const { public:publicURL } = useRuntimeConfig()
+  const baseURL = publicURL.baseURL
+  const { data:empresaData } = await useFetch(`${baseURL}/empresa`)
   const links = ref([
     {
       title:"Sobre Mi",

@@ -2,7 +2,9 @@
   definePageMeta({
     layout:"administration",
   })
-  const  {data:categorias, refresh}= await useFetch("http://localhost:5000/api/v1/category")
+  const { public:publicURL } = useRuntimeConfig()
+  const baseURL = publicURL.baseURL
+  const  {data:categorias, refresh}= await useFetch(`${baseURL}/category`)
   const openForm = ref(false)
   const openDelete = ref(false)
   const loader = ref(false)
@@ -43,7 +45,7 @@
         formData.append(key, value)
       }
       formData.append('imagen', category.imagen[0])
-      const {data:res} = await useFetch("http://localhost:5000/api/v1/category",{
+      const {data:res} = await useFetch(`${baseURL}/category`,{
         method:'POST',
         credentials: "include",
         body:formData //: JSON.stringify({...this.product, imgP:this.imgPrincipal})
@@ -73,7 +75,7 @@
         formData.append(key, value)
       }
       if(category.imagen[0]) formData.append('imagen', category.imagen[0])
-      const {data:res} = await useFetch("http://localhost:5000/api/v1/category",{
+      const {data:res} = await useFetch(`${baseURL}/category`,{
         method:'PUT',
         credentials: "include",
         body:formData //: JSON.stringify({...this.product, imgP:this.imgPrincipal})
@@ -93,7 +95,7 @@
   async function eliminarCategoria(){
     try{
       loader.value = true
-      await useFetch("http://localhost:5000/api/v1/category",{
+      await useFetch(`${baseURL}/category`,{
         method:'DELETE',
         credentials: "include",
         body:JSON.stringify({...category})

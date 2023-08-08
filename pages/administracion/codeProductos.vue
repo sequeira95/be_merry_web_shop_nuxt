@@ -2,6 +2,8 @@
   definePageMeta({
     layout:"administration",
   })
+  const { public:publicURL } = useRuntimeConfig()
+  const baseURL = publicURL.baseURL
   const openForm = ref(false)
   const loader = ref(false)
   const isEdit = ref(false)
@@ -11,7 +13,7 @@
     code:'',
   }
   const codigo = reactive({...initialValueCode})
-  const  {data:codigos}= await useFetch("http://localhost:5000/api/v1/codes")
+  const  {data:codigos}= await useFetch(`${baseURL}/codes`)
   console.log(codigos)
   async function guardarCodigo(){
     if(!codigo.name || !codigo.code){
@@ -19,7 +21,7 @@
     }
     loader.value = true
     try{
-      const {data:res} = await useFetch("http://localhost:5000/api/v1/codes",{
+      const {data:res} = await useFetch(`${baseURL}/codes`,{
         method:'POST',
         credentials: "include",
         body: JSON.stringify(codigo)
@@ -42,7 +44,7 @@
     try{
       loader.value = true
       const formData = new FormData()
-      const {data:res} = await useFetch("http://localhost:5000/api/v1/codes",{
+      const {data:res} = await useFetch(`${baseURL}/codes`,{
         method:'PUT',
         credentials: "include",
         body: JSON.stringify(codigo)
@@ -61,7 +63,7 @@
   async function eliminarCodigo(){
     try{
       loader.value = true
-      await useFetch("http://localhost:5000/api/v1/codes",{
+      await useFetch(`${baseURL}/codes`,{
         method:'DELETE',
         credentials: "include",
         body:JSON.stringify(codigo)

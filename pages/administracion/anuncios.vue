@@ -42,7 +42,9 @@
       value:"otro"
     },
   ])
-  const  {data:anuncios, refresh}= await useFetch("http://localhost:5000/api/v1/anuncios")
+  const { public:publicURL } = useRuntimeConfig()
+  const baseURL = publicURL.baseURL
+  const  {data:anuncios, refresh}= await useFetch(`${baseURL}/anuncios`)
   async function guardarAnuncio(){
     if(!anuncio.name || !anuncio.type || !anuncio.category){
       return alert("Todos los campos son obligatorios")
@@ -54,7 +56,7 @@
         formData.append(key, value)
       }
       formData.append('imagen', anuncio.imagen[0])
-      const {data:res} = await useFetch("http://localhost:5000/api/v1/anuncios",{
+      const {data:res} = await useFetch(`${baseURL}/anuncios`,{
         method:'POST',
         credentials: "include",
         body:formData //: JSON.stringify({...this.product, imgP:this.imgPrincipal})
@@ -86,7 +88,7 @@
         formData.append(key, value)
       }
       if(anuncio.imagen[0]) formData.append('imagen', anuncio.imagen[0])
-      const {data:res} = await useFetch("http://localhost:5000/api/v1/anuncios",{
+      const {data:res} = await useFetch(`${baseURL}/anuncios`,{
         method:'PUT',
         credentials: "include",
         body:formData //: JSON.stringify({...this.product, imgP:this.imgPrincipal})
@@ -106,7 +108,7 @@
   async function eliminarAnuncio(){
     try{
       loader.value = true
-      await useFetch("http://localhost:5000/api/v1/anuncios",{
+      await useFetch(`${baseURL}/anuncios`,{
         method:'DELETE',
         credentials: "include",
         body:JSON.stringify({...anuncio})

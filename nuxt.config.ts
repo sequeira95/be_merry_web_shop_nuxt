@@ -24,4 +24,10 @@ export default defineNuxtConfig({
       'process.env.DEBUG': false,
     },
   },
+  runtimeConfig: {
+    public: {
+      baseURL: 'https://be-merry-backend-node-lzbk-dev.fl0.io/api/v1',
+      baseURLBeta: 'http://localhost:5000/api/v1',
+    }
+  }
 })

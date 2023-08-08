@@ -2,6 +2,8 @@
   definePageMeta({
     layout:"administration",
   })
+  const { public:publicURL } = useRuntimeConfig()
+  const baseURL = publicURL.baseURL
   const openForm = ref(false)
   const loader = ref(false)
   const isEdit = ref(false)
@@ -36,14 +38,14 @@
       value:"accesorios"
     }
   ])
-  const  {data:productos, refresh:refreshProduct}= await useFetch("http://localhost:5000/api/v1/products")
-  const {data:categorias, refresh:refreshCategory} = await useFetch("http://localhost:5000/api/v1/category",{
+  const  {data:productos, refresh:refreshProduct}= await useFetch(`${baseURL}/products`)
+  const {data:categorias, refresh:refreshCategory} = await useFetch(`${baseURL}/category`,{
     transform:(categorias) =>{
       if(producto.typeProduct) return categorias.filter(e => e.type === producto.typeProduct)
     }
   })
-  const {data:anuncios} = await useFetch("http://localhost:5000/api/v1/anuncios", {query:{active:true}})
-  const {data:codigos} = await useFetch("http://localhost:5000/api/v1/codes")
+  const {data:anuncios} = await useFetch(`${baseURL}/anuncios`, {query:{active:true}})
+  const {data:codigos} = await useFetch(`${baseURL}/codes`)
 
   async function guardarProducto(){
     console.log(producto)
@@ -57,7 +59,7 @@
         for( let img in producto.otherImg){
           formData.append('otherImg', producto.otherImg[img])
         }
-        await useFetch("http://localhost:5000/api/v1/products",{
+        await useFetch(`${baseURL}/products`,{
           method:'POST',
           credentials: "include",
           body:formData
@@ -94,7 +96,7 @@
         formData.append(key, value)
       }
       if(producto.imgPrincipal[0]) formData.append('imagen', producto.imgPrincipal[0])
-      const {data:res} = await useFetch(`http://localhost:5000/api/v1/products/${producto._id}`,{
+      const {data:res} = await useFetch(`${baseURL}/products/${producto._id}`,{
         method:'POST',
         credentials: "include",
         body:formData //: JSON.stringify({...this.product, imgP:this.imgPrincipal})
@@ -114,7 +116,7 @@
   async function eliminarProducto(){
     try{
       loader.value = true
-      await useFetch("http://localhost:5000/api/v1/products",{
+      await useFetch(`${baseURL}/products`,{
         method:'DELETE',
         credentials: "include",
         body:JSON.stringify({...producto})
@@ -134,7 +136,7 @@
   async function eliminarPhotos(){
     try{
       loader.value = true
-      const res = await useFetch(`http://localhost:5000/api/v1/products/deletePhotos/${productSelect.value._id}`,{
+      const res = await useFetch(`${baseURL}/products/deletePhotos/${productSelect.value._id}`,{
         method:'POST',
         credentials: "include",
           body: JSON.stringify({productId:productSelect.value._id, photos:photoSelect.value})
@@ -155,7 +157,7 @@
       formData.append('otherImg', producto.otherImg[img])
     }
     try{
-      const res = await useFetch(`http://localhost:5000/api/v1/products/addPhoto/${productSelect.value._id}`,{
+      const res = await useFetch(`${baseURL}/products/addPhoto/${productSelect.value._id}`,{
         method:'POST',
         credentials: "include",
         body:formData

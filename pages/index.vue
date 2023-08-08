@@ -1,7 +1,8 @@
 <script setup>
-
-  const  {data:empresa}= await useFetch("http://localhost:5000/api/v1/empresa")
-  const  {data:anuncios}= await useFetch("http://localhost:5000/api/v1/anuncios",{query:{active:true}})
+  const { public:publicURL } = useRuntimeConfig()
+  const baseURL = publicURL.baseURL
+  const  {data:empresa}= await useFetch(`${baseURL}/empresa`)
+  const  {data:anuncios}= await useFetch(`${baseURL}/anuncios`,{query:{active:true}})
   async function redirect(item){
     return await navigateTo({path:`/anuncios-${item.name}/${item._id}`})
   }
@@ -37,7 +38,7 @@
           ABOUT ME
         </h4>
         <p>
-          {{ empresa.history || 'ropita hecha por mua' }}
+          {{ empresa?.history || 'ropita hecha por mua' }}
         </p>
       </div>
     </div>
