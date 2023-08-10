@@ -4,7 +4,7 @@
 <template>
   <div>
     <div class="product_img">
-      <nuxt-img :src="product.imgPrincipal.url"/>
+      <NuxtLink :to="{name:'productos-category-idProduct', params:{category:product.category, idProduct:product._id}}"> <nuxt-img :src="product.imgPrincipal.url"/> </NuxtLink>
     </div>
     <div class="product_price">
       <p class="pb-2 name">{{ product?.name }}</p>

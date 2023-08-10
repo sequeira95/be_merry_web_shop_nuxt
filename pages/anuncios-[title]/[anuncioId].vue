@@ -5,5 +5,9 @@
     })
 </script>
 <template>
-  <div>ANUNCIOS</div>
+  <div>
+    <CategoriesCarousel class="pa-16"></CategoriesCarousel>
+    <Separator></Separator>
+    <div>ANUNCIOS</div>
+  </div>  
 </template>

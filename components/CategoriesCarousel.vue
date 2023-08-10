@@ -27,7 +27,7 @@
         >
         <NuxtLink 
           v-if="item && item.imagen"
-          :to="item.anuncio ? `/anuncios-${item.name}/${item._id}` : `/productos/${item.name}`">
+          :to="item.anuncio ? `/anuncios-${item.name}/${item._id}` : `/productos-${item.name}`">
           <nuxt-img :src="item.imagen.url"/>
           <p>{{ item.name.toUpperCase() }}</p>
         </NuxtLink>

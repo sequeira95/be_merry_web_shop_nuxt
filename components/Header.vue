@@ -93,7 +93,8 @@
         <div>
           <ul class="yellowList">
             <li v-for="(item, index) in categorias.ropita" :key="index">
-              <NuxtLink :to="`/productos/${item.name === 'ver todo' ? 'ropita' : item.name}`"> {{ item.name.toUpperCase() }} </NuxtLink>
+              <!--<NuxtLink :to="`/productos/${item.name === 'ver todo' ? 'ropita' : item.name}`"> {{ item.name.toUpperCase() }} </NuxtLink>-->
+              <NuxtLink :to="`/productos-${item.name === 'ver todo' ? 'ropita' : item.name}`"> {{ item.name.toUpperCase() }} </NuxtLink>
             </li>
           </ul>
         </div>
@@ -109,7 +110,8 @@
         <div>
           <ul class="pinkList">
             <li v-for="(item, index) in categorias.accesorios" :key="index">
-              <NuxtLink :to="`/productos/${item.name === 'ver todo' ? 'accesorios' : item.name}`"> {{ item.name.toUpperCase() }} </NuxtLink>
+              <!--<NuxtLink :to="`/productos/${item.name === 'ver todo' ? 'accesorios' : item.name}`"> {{ item.name.toUpperCase() }} </NuxtLink>-->
+              <NuxtLink :to="`/productos-${item.name === 'ver todo' ? 'accesorios' : item.name}`"> {{ item.name.toUpperCase() }} </NuxtLink>
             </li>
           </ul>
         </div>

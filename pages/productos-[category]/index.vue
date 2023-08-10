@@ -8,7 +8,11 @@
   }else{
     query['category'] = params.category
   }
-  const  {data:productos, refresh:refreshProduct}= await useFetch(`${baseURL}/products`,{query:{...query}})
+  const  {data:productos, refresh:refreshProduct}= await useFetch(`${baseURL}/products`,{query,
+    transform:(productos) =>{
+      return productos.filter(e=> e.quanty > 0)
+    }
+  })
   useHead({
     title: `${params.category}`
   })
@@ -20,9 +24,7 @@
       <title>Ropita - </title>
     </Head>
     <CategoriesCarousel class="pa-16"></CategoriesCarousel>
-    <div class="separator">
-      <v-icon> mdi-heart </v-icon>
-    </div>
+    <Separator></Separator>
     <div class="filter_button">
       <v-btn>
         <span>ORDERNAR</span> <v-icon> mdi-tune </v-icon>
@@ -39,26 +41,6 @@
     flex-wrap: wrap;
     gap: 4.5rem;
     justify-content: center;
-  }
-  .separator{
-    position: relative;
-    padding-bottom: 3.87rem;
-  }
-  .separator i{
-    position: absolute;
-    left: 50%;
-    top: -6px;
-    color: #FF8BB5;
-  }
-  .separator::before{
-    content: "";
-    position: relative;
-    display: block;
-    width: 34.90rem;
-    height: 5px;
-    border-bottom: 1px solid #FF8BB5;
-    margin-left: auto;
-    margin-right: auto;
   }
   .filter_button{
     display: flex;
